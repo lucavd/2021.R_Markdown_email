@@ -1,0 +1,40 @@
+---
+title: "Email"
+author: "Luca Vedovelli"
+date: "08/02/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# install.packages("RDCOMClient", repos = "http://www.omegahat.net/R")
+
+# Load the DCOM library
+library (RDCOMClient)
+
+```
+
+
+```{r cars}
+# Open Outlook
+Outlook <- COMCreate("Outlook.Application")
+
+# Create a new message
+Email = Outlook$CreateItem(0)
+
+# Set the recipient, subject, and body
+Email[["to"]] = "cainelli.elisa@gmail.com"
+# Email[["cc"]] = ""
+# Email[["bcc"]] = ""
+# Email[["attachments"]]$Add("D:\\Reports\\Sales Analysis.xlsx")
+Email[["subject"]] = "Quarterly Sales Analysis Updated"
+Email[["body"]] = 
+  "Mando le email direttamente da R, sappi che stasera non sarà l'ultima"
+
+# Send the message
+Email$Send()
+
+# Close Outlook, clear the message
+rm(Outlook, Email)
+```

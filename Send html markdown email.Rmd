@@ -1,0 +1,47 @@
+---
+title: "Email mkdwn"
+author: "Luca Vedovelli"
+date: "08/02/2021"
+output: 
+  html_document:
+    self_contained: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# install.packages('readtext')
+
+library(readtext)
+library(RDCOMClient)
+
+# trasform a markdown document in the body of the email
+
+# click on the .html file, Open in Editor
+# File -> Save as -> [file_name].txt
+
+body <- readtext(here::here("self.txt"))
+```
+
+
+```{r cars}
+# Open Outlook
+Outlook <- COMCreate("Outlook.Application")
+
+# Create a new message
+Email = Outlook$CreateItem(0)
+
+# Set the recipient, subject, and body
+Email[["to"]] = "jane_doe@mail.com"
+# Email[["cc"]] = ""
+# Email[["bcc"]] = ""
+# Email[["attachments"]]$Add("D:\\Reports\\Sales Analysis.xlsx")
+Email[["subject"]] = "Prova send email da RMarkdown con Outlook"
+Email[["htmlbody"]] = body$text
+
+# Send the message
+Email$Send()
+
+# Close Outlook, clear the message
+rm(Outlook, Email)
+```
